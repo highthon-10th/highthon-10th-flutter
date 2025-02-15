@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:highthon_10th/models/visit_model.dart';
+import 'package:highthon_10th/models/event_model.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class EventItem extends StatelessWidget {
   const EventItem({
     super.key,
-    required this.visit,
+    required this.event,
     required this.locate,
     required this.fullLocate,
   });
 
-  final VisitModel visit;
+  final EventModel event;
   final String locate;
   final String fullLocate;
 
@@ -38,7 +38,7 @@ class EventItem extends StatelessWidget {
               height: 110,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(visit.photoUrl),
+                  image: NetworkImage(event.photoUrl),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.circular(11),
@@ -49,7 +49,7 @@ class EventItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  visit.name,
+                  event.eventName,
                   style: TextStyle(
                       color: Color(0xFF3B3B3B),
                       fontSize: 16,
@@ -87,7 +87,7 @@ class EventItem extends StatelessWidget {
                       size: 14,
                     ),
                     const SizedBox(width: 4),
-                    Text(visit.createdAt)
+                    Text(event.eventTime)
                   ],
                 ),
               ],

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:highthon_10th/provider/event_provider.dart';
 import 'package:highthon_10th/provider/visit_provider.dart';
 import 'package:highthon_10th/views/main/providers/tags_header_type_provider.dart';
 import 'package:highthon_10th/views/main/widgets/header/main_tags_header.dart';
@@ -111,6 +112,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(visitProvider.notifier).loadVisits();
+      ref.read(eventProvider.notifier).loadEvents();
     });
     createMarkers();
   }
