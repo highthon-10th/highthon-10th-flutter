@@ -49,5 +49,11 @@
     <string>We need your location to provide better services.</string>
     <key>NSLocationAlwaysUsageDescription</key>
     <string>We need your location to provide better services.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Used to demonstrate image picker plugin</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Used to capture audio for image picker plugin</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Used to demonstrate image picker plugin</string>
 </dict>
 </plist>
