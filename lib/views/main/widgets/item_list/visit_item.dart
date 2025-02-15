@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:highthon_10th/models/visit_model.dart';
 import 'package:highthon_10th/views/main/providers/visit_tags_type_provider.dart';
-import 'package:highthon_10th/views/main/widgets/modal/visit_dialog_modal.dart';
 
 class VisitItem extends StatelessWidget {
   const VisitItem({
