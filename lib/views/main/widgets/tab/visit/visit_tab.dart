@@ -7,28 +7,31 @@ class VisitTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 28,
-          child: ListView.separated(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: VisitTagsType.values.length,
-            itemBuilder: (context, index) {
-              return _TabItem(
-                VisitTagsType.values.elementAt(index),
-              );
-            },
-            separatorBuilder: (context, index) {
-              return const SizedBox(width: 8);
-            },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 28,
+            child: ListView.separated(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: VisitTagsType.values.length,
+              itemBuilder: (context, index) {
+                return _TabItem(
+                  VisitTagsType.values.elementAt(index),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const SizedBox(width: 8);
+              },
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
-        VisitItemList(),
-      ],
+          const SizedBox(height: 16),
+          VisitItemList(),
+        ],
+      ),
     );
   }
 }

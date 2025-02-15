@@ -109,15 +109,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   void initState() {
     super.initState();
-    createMarkers();
-  }
-
-  @override
-  void initState() {
-    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(visitProvider.notifier).loadVisits();
     });
+    createMarkers();
   }
 
   @override
@@ -143,120 +138,55 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           /// 하단 드래그 시트
           DraggableScrollableSheet(
             initialChildSize: _sheetPosition,
+            minChildSize: 0.25,
+            maxChildSize: 0.93,
             builder: (context, controller) {
               return GestureDetector(
                 onVerticalDragUpdate: (details) =>
                     _updateSheetPosition(details.delta.dy),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF7F5FA),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFF7A618D).withOpacity(0.05),
-                        blurRadius: 4,
-                        spreadRadius: 0,
-                        offset: const Offset(0, -4),
+                child: SingleChildScrollView(
+                  controller: controller,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF7F5FA),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        topRight: Radius.circular(40),
                       ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const SizedBox(height: 10),
-                      Container(
-                        width: 52,
-                        height: 5,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFB8ACCB),
-                          borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF7A618D).withOpacity(0.05),
+                          blurRadius: 4,
+                          spreadRadius: 0,
+                          offset: const Offset(0, -4),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      const EventTab(),
-                    ],
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(height: 10),
+                        Container(
+                          width: 52,
+                          height: 5,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFB8ACCB),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        switch (type) {
+                          TagsHeaderType.pick => VisitTab(),
+                          TagsHeaderType.event => EventTab(),
+                        },
+                      ],
+                    ),
                   ),
                 ),
               );
             },
           ),
         ],
-      backgroundColor: Colors.grey,
-      body: SafeArea(
-        bottom: false,
-        child: Stack(
-          children: [
-            DraggableScrollableSheet(
-              initialChildSize: _sheetPosition,
-              minChildSize: 0.25,
-              maxChildSize: 0.93,
-              builder: (context, controller) {
-                return GestureDetector(
-                  onVerticalDragUpdate: (DragUpdateDetails details) {
-                    setState(() {
-                      _sheetPosition -= details.delta.dy / _dragSensitivity;
-                      if (_sheetPosition < 0.25) {
-                        _sheetPosition = 0.25;
-                      }
-                      if (_sheetPosition > 0.93) {
-                        _sheetPosition = 0.93;
-                      }
-                    });
-                  },
-                  child: SingleChildScrollView(
-                    controller: controller,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF7F5FA),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40),
-                          topRight: Radius.circular(40),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xFF7A618D).withOpacity(0.05),
-                            blurRadius: 4,
-                            spreadRadius: 0,
-                            offset: const Offset(0, -4),
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 10),
-                            Center(
-                              child: Container(
-                                width: 52,
-                                height: 5,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFB8ACCB),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 16),
-                            switch(type) {
-                              TagsHeaderType.pick => VisitTab(),
-                              TagsHeaderType.event => EventTab(),
-                            },
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-            MainTagsHeader(),
-          ],
-        ),
       ),
     );
   }
