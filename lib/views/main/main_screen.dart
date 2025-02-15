@@ -4,17 +4,21 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:highthon_10th/provider/visit_provider.dart';
+import 'package:highthon_10th/views/main/providers/tags_header_type_provider.dart';
 import 'package:highthon_10th/views/main/widgets/header/main_tags_header.dart';
 import 'package:highthon_10th/views/main/widgets/tab/event/event_tab.dart';
+import 'package:highthon_10th/views/main/widgets/tab/visit/visit_tab.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends ConsumerState<MainScreen> {
   double _sheetPosition = 0.5;
   final double _dragSensitivity = 600;
   GoogleMapController? mapController;
@@ -109,7 +113,16 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(visitProvider.notifier).loadVisits();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final type = ref.watch(tagsHeaderTypeProvider);
     return Scaffold(
       body: Stack(
         children: [
@@ -171,6 +184,79 @@ class _MainScreenState extends State<MainScreen> {
             },
           ),
         ],
+      backgroundColor: Colors.grey,
+      body: SafeArea(
+        bottom: false,
+        child: Stack(
+          children: [
+            DraggableScrollableSheet(
+              initialChildSize: _sheetPosition,
+              minChildSize: 0.25,
+              maxChildSize: 0.93,
+              builder: (context, controller) {
+                return GestureDetector(
+                  onVerticalDragUpdate: (DragUpdateDetails details) {
+                    setState(() {
+                      _sheetPosition -= details.delta.dy / _dragSensitivity;
+                      if (_sheetPosition < 0.25) {
+                        _sheetPosition = 0.25;
+                      }
+                      if (_sheetPosition > 0.93) {
+                        _sheetPosition = 0.93;
+                      }
+                    });
+                  },
+                  child: SingleChildScrollView(
+                    controller: controller,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF7F5FA),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(40),
+                          topRight: Radius.circular(40),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xFF7A618D).withOpacity(0.05),
+                            blurRadius: 4,
+                            spreadRadius: 0,
+                            offset: const Offset(0, -4),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 10),
+                            Center(
+                              child: Container(
+                                width: 52,
+                                height: 5,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFB8ACCB),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            switch(type) {
+                              TagsHeaderType.pick => VisitTab(),
+                              TagsHeaderType.event => EventTab(),
+                            },
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            MainTagsHeader(),
+          ],
+        ),
       ),
     );
   }

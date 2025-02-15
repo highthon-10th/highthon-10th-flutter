@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
-enum EventTagsType {
+enum VisitTagsType {
   all(null, Colors.black, '전체'),
-  restaurant(
+  food(
     Symbols.restaurant_rounded,
     Color(0xFFFB467B),
     '식당',
@@ -25,7 +25,7 @@ enum EventTagsType {
     '기타',
   );
 
-  const EventTagsType(this.icon, this.color, this.text);
+  const VisitTagsType(this.icon, this.color, this.text);
 
   final IconData? icon;
   final Color color;
@@ -33,4 +33,4 @@ enum EventTagsType {
 }
 
 final eventTagsTypeProvider =
-    StateProvider<EventTagsType>((ref) => EventTagsType.all);
+    StateProvider<VisitTagsType>((ref) => VisitTagsType.all);
