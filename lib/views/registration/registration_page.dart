@@ -12,31 +12,35 @@ class RegistrationPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildTitleText('아이유(IU)'),
-              const SizedBox(height: 40),
-              buildCategorySelection(ref),
-              const SizedBox(height: 32),
-              buildTextFieldSection(
-                  '장소 이름', ref.watch(name), '지도상의 이름을 입력해주세요'),
-              const SizedBox(height: 32),
-              buildTextFieldSection('주소', ref.watch(address), '정확한 주소를 입력해주세요'),
-              const SizedBox(height: 32),
-              buildTextFieldSection(
-                  '소개', ref.watch(description), '아티스트와 장소에 관한 이야기를 적어 주세요!'),
-              const SizedBox(height: 32),
-              buildPlaceCategorySelection(ref),
-              const SizedBox(height: 32),
-              buildPhotoUploadSection(ref),
-              const SizedBox(height: 32),
-              buildRegisterButton(ref), // ✅ 버튼 추가
-            ],
+    return Scaffold(
+      backgroundColor: Color(0xffF7F5Fa),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildTitleText('아이유(IU)'),
+                const SizedBox(height: 40),
+                buildCategorySelection(ref),
+                const SizedBox(height: 32),
+                buildTextFieldSection(
+                    '장소 이름', ref.watch(name), '지도상의 이름을 입력해주세요'),
+                const SizedBox(height: 32),
+                buildTextFieldSection(
+                    '주소', ref.watch(address), '정확한 주소를 입력해주세요'),
+                const SizedBox(height: 32),
+                buildTextFieldSection(
+                    '소개', ref.watch(description), '아티스트와 장소에 관한 이야기를 적어 주세요!'),
+                const SizedBox(height: 32),
+                buildPlaceCategorySelection(ref),
+                const SizedBox(height: 32),
+                buildPhotoUploadSection(ref),
+                const SizedBox(height: 32),
+                buildRegisterButton(ref), // ✅ 버튼 추가
+              ],
+            ),
           ),
         ),
       ),
