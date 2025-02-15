@@ -4,6 +4,8 @@ import 'package:highthon_10th/provider/visit_provider.dart';
 import 'package:highthon_10th/views/main/providers/visit_tags_type_provider.dart';
 import 'package:highthon_10th/views/main/widgets/item_list/visit_item.dart';
 
+import '../modal/map_modal.dart';
+
 class VisitItemList extends ConsumerWidget {
   const VisitItemList({super.key});
 
@@ -37,13 +39,26 @@ class VisitItemList extends ConsumerWidget {
       '서울특별시 중구 덕수궁길 15',
     ];
     return ListView.separated(
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: visitsType == VisitTagsType.all ? visits.length : visits.where((e) => e.placeType == visitsType.name).length,
+      itemCount: visitsType == VisitTagsType.all
+          ? visits.length
+          : visits.where((e) => e.placeType == visitsType.name).length,
       itemBuilder: (context, index) {
-        return VisitItem(
-          visit: visitsType == VisitTagsType.all ? visits[index] : visits.where((e) => e.placeType == visitsType.name).elementAt(index),
-          locate: shortLocates[index],
-          fullLocate: fullLocates[index],
+        return GestureDetector(
+          onTap: () => showDialog(
+            context: context,
+            builder: (builder) => MapModal(visits[index], fullLocates[index]),
+          ),
+          child: VisitItem(
+            visit: visitsType == VisitTagsType.all
+                ? visits[index]
+                : visits
+                    .where((e) => e.placeType == visitsType.name)
+                    .elementAt(index),
+            locate: shortLocates[index],
+            fullLocate: fullLocates[index],
+          ),
         );
       },
       separatorBuilder: (context, index) {

@@ -7,8 +7,7 @@ void main() {
     ProviderScope(
       child: MyApp(),
     ),
-  );
-}
+  );}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

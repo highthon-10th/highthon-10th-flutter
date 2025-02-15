@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:highthon_10th/providers/bottom_naviagtion_bar_provider.dart';
+import 'package:highthon_10th/provider/bottom_naviagtion_bar_provider.dart';
 import 'package:highthon_10th/views/main/main_screen.dart';
 import 'package:highthon_10th/views/my_page/my_page.dart';
 import 'package:highthon_10th/views/registration/registration_page.dart';

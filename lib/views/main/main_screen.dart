@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:highthon_10th/provider/visit_provider.dart';
 import 'package:highthon_10th/views/main/providers/tags_header_type_provider.dart';
 import 'package:highthon_10th/views/main/widgets/header/main_tags_header.dart';
+import 'package:highthon_10th/views/main/widgets/modal/map_modal.dart';
 import 'package:highthon_10th/views/main/widgets/tab/event/event_tab.dart';
 import 'package:highthon_10th/views/main/widgets/tab/visit/visit_tab.dart';
 
@@ -188,7 +189,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          switch(type) {
+                          switch (type) {
                             TagsHeaderType.pick => VisitTab(),
                             TagsHeaderType.event => EventTab(),
                           },
