@@ -68,7 +68,8 @@ class VisitItem extends StatelessWidget {
                                 .text,
                             style: TextStyle(
                               color: VisitTagsType.values
-                                  .firstWhere((e) => e.name == visit.placeType)
+                                  .firstWhere(
+                                      (e) => e.name == visit.placeType)
                                   .color,
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
