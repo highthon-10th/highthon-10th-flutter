@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:highthon_10th/provider/visit_provider.dart';
+import 'package:highthon_10th/views/main/providers/visit_tags_type_provider.dart';
 import 'package:highthon_10th/views/main/widgets/item_list/visit_item.dart';
 
 class VisitItemList extends ConsumerWidget {
@@ -9,6 +10,7 @@ class VisitItemList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final visits = ref.watch(visitProvider);
+    final visitsType = ref.watch(eventTagsTypeProvider);
     const List<String> shortLocates = [
       '서울특별시 종로구',
       '서울특별시 종로구',
@@ -36,10 +38,10 @@ class VisitItemList extends ConsumerWidget {
     ];
     return ListView.separated(
       shrinkWrap: true,
-      itemCount: visits.length,
+      itemCount: visitsType == VisitTagsType.all ? visits.length : visits.where((e) => e.placeType == visitsType.name).length,
       itemBuilder: (context, index) {
         return VisitItem(
-          visit: visits[index],
+          visit: visitsType == VisitTagsType.all ? visits[index] : visits.where((e) => e.placeType == visitsType.name).elementAt(index),
           locate: shortLocates[index],
           fullLocate: fullLocates[index],
         );

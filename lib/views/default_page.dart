@@ -18,11 +18,13 @@ class DefaultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, ref, child) {
-      return Scaffold(
-        body: pages[ref.watch(currentIndexProvider)],
-        bottomNavigationBar: CustomBottomNavBar(),
-      );
-    });
+    return Consumer(
+      builder: (context, ref, child) {
+        return Scaffold(
+          body: pages[ref.watch(currentIndexProvider)],
+          bottomNavigationBar: CustomBottomNavBar(),
+        );
+      },
+    );
   }
 }

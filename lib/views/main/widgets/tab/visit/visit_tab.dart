@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:highthon_10th/views/main/providers/visit_tags_type_provider.dart';
 import 'package:highthon_10th/views/main/widgets/item_list/visit_item_list.dart';
 
@@ -36,41 +37,46 @@ class VisitTab extends StatelessWidget {
   }
 }
 
-class _TabItem extends StatelessWidget {
+class _TabItem extends ConsumerWidget {
   const _TabItem(this.type);
 
   final VisitTagsType type;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 28,
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          if (type.icon != null) ...[
-            Icon(
-              type.icon,
-              color: type.color,
-              fill: 1,
-              size: 20,
+  Widget build(BuildContext context, WidgetRef ref) {
+    return GestureDetector(
+      onTap: () {
+        ref.read(eventTagsTypeProvider.notifier).state = type;
+      },
+      child: Container(
+        height: 28,
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            if (type.icon != null) ...[
+              Icon(
+                type.icon,
+                color: type.color,
+                fill: 1,
+                size: 20,
+              ),
+              const SizedBox(width: 4),
+            ],
+            Text(
+              type.text,
+              style: TextStyle(
+                color: type.color,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Wanted',
+              ),
             ),
-            const SizedBox(width: 4),
           ],
-          Text(
-            type.text,
-            style: TextStyle(
-              color: type.color,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              fontFamily: 'Wanted',
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

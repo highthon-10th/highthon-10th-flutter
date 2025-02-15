@@ -46,6 +46,7 @@ class VisitItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,8 +69,7 @@ class VisitItem extends StatelessWidget {
                                 .text,
                             style: TextStyle(
                               color: VisitTagsType.values
-                                  .firstWhere(
-                                      (e) => e.name == visit.placeType)
+                                  .firstWhere((e) => e.name == visit.placeType)
                                   .color,
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
@@ -89,7 +89,12 @@ class VisitItem extends StatelessWidget {
                         ),
                       ),
                     ],
-                  )
+                  ),
+                  Image.asset(
+                    'assets/image/${visit.placeType == 'food' ? 'restaurant' : visit.placeType}.png',
+                    width: 32,
+                    height: 32,
+                  ),
                 ],
               ),
             ),
