@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:highthon_10th/provider/visit_provider.dart';
+import 'package:highthon_10th/views/main/main_screen.dart';
 import 'package:highthon_10th/views/main/providers/visit_tags_type_provider.dart';
 import 'package:highthon_10th/views/main/widgets/item_list/visit_item.dart';
-
 import '../modal/map_modal.dart';
 
 class VisitItemList extends ConsumerWidget {
@@ -46,10 +47,19 @@ class VisitItemList extends ConsumerWidget {
           : visits.where((e) => e.placeType == visitsType.name).length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () => showDialog(
-            context: context,
-            builder: (builder) => MapModal(visits[index], fullLocates[index]),
-          ),
+          onTap: () {
+            final CameraPosition _kLake = CameraPosition(
+                target: LatLng(visits[index].latitude, visits[index].longitude),
+                zoom: 19.151926040649414);
+            googleMapController!
+                .animateCamera(CameraUpdate.newCameraPosition(_kLake));
+            draggableScrollableController?.animateTo(0,
+                duration: Duration(milliseconds: 500), curve: Curves.linear);
+            showDialog(
+              context: context,
+              builder: (builder) => MapModal(visits[index], fullLocates[index]),
+            );
+          },
           child: VisitItem(
             visit: visitsType == VisitTagsType.all
                 ? visits[index]

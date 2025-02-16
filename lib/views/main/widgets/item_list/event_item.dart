@@ -33,6 +33,7 @@ class EventItem extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Row(
           children: [
+            /// 이벤트 이미지 (고정 크기)
             Container(
               width: 110,
               height: 110,
@@ -44,53 +45,81 @@ class EventItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(11),
               ),
             ),
-            const SizedBox(width: 24),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  event.eventName,
-                  style: TextStyle(
+            const SizedBox(width: 16),
+
+            /// 텍스트 부분 (Expanded로 감싸기)
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// 이벤트 이름 (가로 오버플로우 방지)
+                  Text(
+                    event.eventName,
+                    overflow: TextOverflow.ellipsis, // ...으로 표시
+                    maxLines: 1,
+                    style: const TextStyle(
                       color: Color(0xFF3B3B3B),
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
-                      fontFamily: 'Wanted'),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Icon(
-                      Symbols.location_on_rounded,
-                      color: Color(0xFF6E6E6E),
-                      fill: 1,
-                      size: 14,
+                      fontFamily: 'Wanted',
                     ),
-                    const SizedBox(width: 4),
-                    Text(
-                      locate,
-                      style: TextStyle(
+                  ),
+                  const SizedBox(height: 10),
+
+                  /// 위치 정보 (Expanded 적용하여 오버플로우 방지)
+                  Row(
+                    children: [
+                      const Icon(
+                        Symbols.location_on_rounded,
                         color: Color(0xFF6E6E6E),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'Wanted',
+                        fill: 1,
+                        size: 14,
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Icon(
-                      Symbols.event_rounded,
-                      color: Color(0xFF6E6E6E),
-                      fill: 1,
-                      size: 14,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(event.eventTime)
-                  ],
-                ),
-              ],
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          locate,
+                          overflow: TextOverflow.ellipsis, // ...으로 표시
+                          maxLines: 1,
+                          style: const TextStyle(
+                            color: Color(0xFF6E6E6E),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Wanted',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+
+                  /// 이벤트 시간 (Expanded 적용하여 오버플로우 방지)
+                  Row(
+                    children: [
+                      const Icon(
+                        Symbols.event_rounded,
+                        color: Color(0xFF6E6E6E),
+                        fill: 1,
+                        size: 14,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          event.eventTime,
+                          overflow: TextOverflow.ellipsis, // ...으로 표시
+                          maxLines: 1,
+                          style: const TextStyle(
+                            color: Color(0xFF6E6E6E),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: 'Wanted',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),

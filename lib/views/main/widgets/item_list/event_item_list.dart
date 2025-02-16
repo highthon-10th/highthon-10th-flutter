@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:highthon_10th/provider/event_provider.dart';
+import 'package:highthon_10th/views/main/main_screen.dart';
 import 'package:highthon_10th/views/main/widgets/item_list/event_item.dart';
+import 'package:highthon_10th/views/main/widgets/modal/map_modal.dart';
 
 class EventItemList extends ConsumerWidget {
   const EventItemList({super.key});
@@ -24,10 +27,26 @@ class EventItemList extends ConsumerWidget {
       shrinkWrap: true,
       itemCount: events.length,
       itemBuilder: (context, index) {
-        return EventItem(
-          event: events[index],
-          locate: locate[index],
-          fullLocate: fullLocate[index],
+        return GestureDetector(
+          onTap: () {
+            final CameraPosition _kLake = CameraPosition(
+                target: LatLng(events[index].latitude, events[index].longitude),
+                zoom: 19.151926040649414);
+            googleMapController!.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+            showDialog(
+              context: context,
+              builder: (builder) => EventModal(
+                events[index],
+                fullLocate[index],
+                locate[index],
+              ),
+            );
+          },
+          child: EventItem(
+            event: events[index],
+            locate: locate[index],
+            fullLocate: fullLocate[index],
+          ),
         );
       },
       separatorBuilder: (context, index) {

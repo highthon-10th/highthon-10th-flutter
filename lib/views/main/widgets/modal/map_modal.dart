@@ -4,6 +4,8 @@ import 'package:highthon_10th/views/main/providers/visit_tags_type_provider.dart
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../../models/event_model.dart';
+
 class MapModal extends StatelessWidget {
   const MapModal(this.visitModel, this.fulllocation, {super.key});
 
@@ -105,6 +107,135 @@ class MapModal extends StatelessWidget {
                     GestureDetector(
                       onTap: () async =>
                           await launchUrlString(visitModel.directionsLink),
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12),
+                            ),
+                            border: Border.all(color: Color(0xff3b3b3b))),
+                        child: Text('길찾기'),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Icon(
+              Icons.cancel_rounded,
+              size: 52,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class EventModal extends StatelessWidget {
+  const EventModal(this.visitModel, this.fulllocation, this.shortLocation,
+      {super.key});
+
+  final EventModel visitModel;
+  final String fulllocation;
+  final String shortLocation;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(24, 120, 24, 0),
+      decoration: BoxDecoration(),
+      child: Column(
+        spacing: 24,
+        children: [
+          Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    ),
+                  ),
+                  child: Image.network(visitModel.photoUrl),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      visitModel.eventName,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Wanted',
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(
+                  height: 13,
+                  thickness: 1,
+                  color: Color(0xffe9e9e9),
+                ),
+                Text(
+                  shortLocation,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Wanted',
+                    color: Colors.black,
+                  ),
+                ),
+                Divider(
+                  height: 13,
+                  thickness: 1,
+                  color: Color(0xffe9e9e9),
+                ),
+                Text(
+                  visitModel.description,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Wanted',
+                    color: Colors.black,
+                  ),
+                ),
+                Divider(
+                  height: 13,
+                  thickness: 1,
+                  color: Color(0xffe9e9e9),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      fulllocation,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Wanted',
+                        color: Colors.black,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async =>
+                          await launchUrlString(visitModel.eventLink),
                       child: Container(
                         alignment: Alignment.center,
                         padding:
