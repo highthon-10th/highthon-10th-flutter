@@ -60,5 +60,7 @@
       <string>sms</string>
       <string>tel</string>
     </array>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Your message to explain why the app needs access to the photo library</string>
 </dict>
 </plist>

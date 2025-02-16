@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:highthon_10th/models/place_model.dart';
+import 'package:highthon_10th/repository/register_repository.dart';
 import 'package:highthon_10th/views/registration/providers/category_provider.dart';
 import 'package:highthon_10th/views/registration/providers/image_picker_provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -12,6 +15,8 @@ class RegistrationPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isFormValid = _isFormValid(ref);
+
     return Scaffold(
       backgroundColor: Color(0xffF7F5Fa),
       body: SafeArea(
@@ -38,40 +43,67 @@ class RegistrationPage extends ConsumerWidget {
                 const SizedBox(height: 32),
                 buildPhotoUploadSection(ref),
                 const SizedBox(height: 32),
-                buildRegisterButton(ref), // ✅ 버튼 추가
+                GestureDetector(
+                  onTap: isFormValid
+                      ? () async {
+                          final selectedCategory =
+                              ref.watch(selectedCategoryProvider);
+                          final placeName = ref.watch(name).text.trim();
+                          final placeAddress = ref.watch(address).text.trim();
+                          final placeDescription =
+                              ref.watch(description).text.trim();
+                          final selectedPlaceCategory =
+                              ref.watch(selectedPlaceCategoryProvider);
+                          final imageFile = ref.watch(selectedImageProvider);
+
+
+                          final String id = await PlaceRepository().addPlace(
+                              PlaceModel(
+                                  name: placeName,
+                                  favoriteMember: "아이유",
+                                  photoUrl: '',
+                                  latitude: 37.545284,
+                                  longitude: 126.952612,
+                                  description: placeDescription,
+                                  placeType: selectedPlaceCategory!,
+                                  directionsLink: 'directionsLink'),
+                              ref);
+
+                          await VisitRepository().uploadVisit(
+                              VisitModel(
+                                favoriteMember: '아이유',
+                                visitId: id,
+                                file: imageFile!,
+                              ),
+                              ref);
+
+                          context.go('/');
+                        }
+                      : null,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 143, vertical: 16),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: isFormValid
+                          ? const Color(0xffB051FB)
+                          : Color(0xffd0d0d0),
+                      // ✅ 활성화 여부에 따라 색 변경
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      '등록하기',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        fontFamily: 'Wanted',
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildRegisterButton(WidgetRef ref) {
-    final isFormValid = _isFormValid(ref);
-
-    return GestureDetector(
-      onTap: isFormValid
-          ? () {
-              // 등록하기 버튼 클릭 시 실행할 동작 추가
-              print('등록 버튼 클릭됨!');
-            }
-          : null,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 143, vertical: 16),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: isFormValid ? const Color(0xffB051FB) : Color(0xffd0d0d0),
-          // ✅ 활성화 여부에 따라 색 변경
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          '등록하기',
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'Wanted',
-            color: Colors.white,
           ),
         ),
       ),

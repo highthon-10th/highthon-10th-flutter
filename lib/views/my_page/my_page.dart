@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:highthon_10th/views/my_page/provider/favorite_provider.dart';
 
+final favorite = StateProvider<String>((ref) => '');
+
 class MyPage extends StatelessWidget {
   const MyPage({super.key});
 
